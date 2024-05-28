@@ -15,10 +15,12 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		length   int
 		policies []password.Policy
 	}
+
 	type want struct {
 		length  int
 		pattern string
 	}
+
 	tests := map[string]struct {
 		args args
 		want want
@@ -128,6 +130,7 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 			},
 		},
 	}
+
 	for tn, tt := range tests {
 		t.Run(tn, func(t *testing.T) {
 			t.Parallel()

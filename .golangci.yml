@@ -128,19 +128,12 @@ linters-settings:
 linters:
   enable-all: true
   disable:
+  - depguard
   - gochecknoglobals
   - ireturn
-  - deadcode # deprecated
-  - execinquery # deprecated
+  - varnamelen
   - gomnd # deprecated
-  - golint # deprecated
-  - ifshort # deprecated
-  - interfacer # deprecated
-  - maligned # deprecated
-  - nosnakecase # deprecated
-  - scopelint # deprecated
-  - structcheck # deprecated
-  - varcheck # deprecated
+  - execinquery # deprecated
 
 issues:
   # Maximum count of issues with the same text.
