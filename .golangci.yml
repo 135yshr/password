@@ -1,160 +1,35 @@
-# This file contains all available configuration options
-# with their default values (in comments).
-#
-# This file is not a configuration example,
-# it contains the exhaustive configuration with explanations of the options.
-
-# Options for analysis running.
 run:
-  # Number of operating system threads (`GOMAXPROCS`) that can execute golangci-lint simultaneously.
-  # If it is explicitly set to 0 (i.e. not the default) then golangci-lint will automatically set the value to match Linux container CPU quota.
-  # Default: the number of logical CPUs in the machine
   concurrency: 4
-
-  # Timeout for analysis, e.g. 30s, 5m.
-  # Default: 1m
   timeout: 5m
-
-  # Exit code when at least one issue was found.
-  # Default: 1
-  issues-exit-code: 2
-
-  # Include test files or not.
-  # Default: true
-  tests: false
-
-  # List of build tags, all linters use it.
-  # Default: []
-  build-tags:
-    - mytag
-
-  # If set, we pass it to "go list -mod={option}". From "go help modules":
-  # If invoked with -mod=readonly, the go command is disallowed from the implicit
-  # automatic updating of go.mod described above. Instead, it fails when any changes
-  # to go.mod are needed. This setting is most useful to check that go.mod does
-  # not need updates, such as in a continuous integration and testing system.
-  # If invoked with -mod=vendor, the go command assumes that the vendor
-  # directory holds the correct copies of dependencies and ignores
-  # the dependency descriptions in go.mod.
-  #
-  # Allowed values: readonly|vendor|mod
-  # Default: ""
   modules-download-mode: readonly
-
-  # Allow multiple parallel golangci-lint instances running.
-  # If false, golangci-lint acquires file lock on start.
-  # Default: false
   allow-parallel-runners: true
-
-  # Allow multiple golangci-lint instances running, but serialize them around a lock.
-  # If false, golangci-lint exits with an error if it fails to acquire file lock on start.
-  # Default: false
   allow-serial-runners: true
-
-  # Define the Go version limit.
-  # Mainly related to generics support since go1.18.
-  # Default: use Go version from the go.mod file, fallback on the env var `GOVERSION`, fallback on 1.17
   go: '1.19'
 
-
-# output configuration options
 output:
-  # The formats used to render issues.
-  # Formats:
-  # - `colored-line-number`
-  # - `line-number`
-  # - `json`
-  # - `colored-tab`
-  # - `tab`
-  # - `html`
-  # - `checkstyle`
-  # - `code-climate`
-  # - `junit-xml`
-  # - `github-actions`
-  # - `teamcity`
-  # - `sarif`
-  # Output path can be either `stdout`, `stderr` or path to the file to write to.
-  #
-  # For the CLI flag (`--out-format`), multiple formats can be specified by separating them by comma.
-  # The output can be specified for each of them by separating format name and path by colon symbol.
-  # Example: "--out-format=checkstyle:report.xml,json:stdout,colored-line-number"
-  # The CLI flag (`--out-format`) override the configuration file.
-  #
-  # Default:
-  #   formats:
-  #     - format: colored-line-number
-  #       path: stdout
   formats:
     - format: json
       path: stderr
     - format: checkstyle
       path: report.xml
     - format: colored-line-number
-
-  # Print lines of code with issue.
-  # Default: true
-  print-issued-lines: false
-
-  # Print linter name in the end of issue text.
-  # Default: true
-  print-linter-name: false
-
-  # Make issues output unique by line.
-  # Default: true
-  uniq-by-line: false
-
-  # Add a prefix to the output file references.
-  # Default: ""
-  path-prefix: ""
-
-  # Sort results by the order defined in `sort-order`.
-  # Default: false
   sort-results: true
-
-  # Order to use when sorting results.
-  # Require `sort-results` to `true`.
-  # Possible values: `file`, `linter`, and `severity`.
-  #
-  # If the severity values are inside the following list, they are ordered in this order:
-  #   1. error
-  #   2. warning
-  #   3. high
-  #   4. medium
-  #   5. low
-  # Either they are sorted alphabetically.
-  #
-  # Default: ["file"]
   sort-order:
     - linter
     - severity
     - file # filepath, line, and column.
-
-  # Show statistics per linter.
-  # Default: false
   show-stats: true
-
 
 # All available settings of specific linters.
 linters-settings:
   asasalint:
-    # To specify a set of function names to exclude.
-    # The values are merged with the builtin exclusions.
-    # The builtin exclusions can be disabled by setting `use-builtin-exclusions` to `false`.
-    # Default: ["^(fmt|log|logger|t|)\.(Print|Fprint|Sprint|Fatal|Panic|Error|Warn|Warning|Info|Debug|Log)(|f|ln)$"]
     exclude:
       - Append
       - \.Wrapf
-    # To enable/disable the asasalint builtin exclusions of function names.
-    # See the default value of `exclude` to get the builtin exclusions.
-    # Default: true
     use-builtin-exclusions: false
-    # Ignore *_test.go files.
-    # Default: false
     ignore-test: true
 
   bidichk:
-    # The following configurations check for all mentioned invisible unicode runes.
-    # All runes are enabled by default.
     left-to-right-embedding: false
     right-to-left-embedding: false
     pop-directional-formatting: false
@@ -166,25 +41,14 @@ linters-settings:
     pop-directional-isolate: false
 
   copyloopvar:
-    # Check all assigning the loop variable to another variable.
-    # Default: false
     check-alias: true
 
   cyclop:
-    # The maximal code complexity to report.
-    # Default: 10
     max-complexity: 10
-    # The maximal average package complexity.
-    # If it's higher than 0.0 (float) the check is enabled
-    # Default: 0.0
     package-average: 0.5
-    # Should ignore tests.
-    # Default: false
     skip-tests: true
 
   decorder:
-    # Required order of `type`, `const`, `var` and `func` declarations inside a file.
-    # Default: types before constants before variables before functions.
     dec-order:
       - type
       - const
@@ -735,45 +599,6 @@ linters-settings:
     # Choose whether to use the extra rules.
     # Default: false
     extra-rules: true
-
-  goheader:
-    # Supports two types 'const` and `regexp`.
-    # Values can be used recursively.
-    # Default: {}
-    values:
-      const:
-        # Define here const type values in format k:v.
-        # For example:
-        COMPANY: MY COMPANY
-      regexp:
-        # Define here regexp type values.
-        # for example:
-        AUTHOR: .*@mycompany\.com
-    # The template use for checking.
-    # Default: ""
-    template: |-
-      # Put here copyright header template for source code files
-      # For example:
-      # Note: {{ YEAR }} is a builtin value that returns the year relative to the current machine time.
-      #
-      # {{ AUTHOR }} {{ COMPANY }} {{ YEAR }}
-      # SPDX-License-Identifier: Apache-2.0
-
-      # Licensed under the Apache License, Version 2.0 (the "License");
-      # you may not use this file except in compliance with the License.
-      # You may obtain a copy of the License at:
-
-      #   http://www.apache.org/licenses/LICENSE-2.0
-
-      # Unless required by applicable law or agreed to in writing, software
-      # distributed under the License is distributed on an "AS IS" BASIS,
-      # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-      # See the License for the specific language governing permissions and
-      # limitations under the License.
-    # As alternative of directive 'template', you may put the path to file with the template source.
-    # Useful if you need to load the template from a specific file.
-    # Default: ""
-    template-path: /path/to/my/template.tmpl
 
   goimports:
     # A comma-separated list of prefixes, which, if set, checks import paths
