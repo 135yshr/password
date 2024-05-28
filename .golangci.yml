@@ -128,29 +128,17 @@ linters-settings:
 linters:
   enable-all: true
   disable:
-  - containedctx
   - deadcode
-  - depguard # [replaced by gomodguard] checks if package imports are in a list of acceptable packages
-  - exhaustruct
-  - exhaustivestruct
   - execinquery
-  - gci
-  - godox
   - gomnd
   - golint
-  - gosmopolitan
   - ifshort
   - interfacer
-  - ireturn
   - maligned
   - nosnakecase
-  - protogetter
   - scopelint
   - structcheck
-  - thelper
   - varcheck
-  - varnamelen
-  - wsl
 
 issues:
   # Maximum count of issues with the same text.
