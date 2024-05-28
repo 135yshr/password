@@ -26,11 +26,11 @@ go get -u github.com/135yshr/password
 import (
 	"fmt"
 
-	"github.com/135yshr/rand/randstr"
+	"github.com/135yshr/password"
 )
 
 func main() {
-	gen := randstr.NewPasswordGenerator()
+	gen := password.New()
 	fmt.Printf("Generated password: %s\n", gen.Generate(12))
 }
 ```
