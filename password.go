@@ -97,14 +97,15 @@ func NewPolicy(letters []rune, validator Validator) Policy {
 	}
 }
 
-// Password is a password type
+// Password is a password type.
 type Password string
 
-// String returns the password string
+// String returns the password string.
 func (p Password) String() string {
 	return string(p)
 }
 
+// Generator is a password generator.
 type Generator interface {
 	Generate(length int) string
 }
@@ -115,6 +116,7 @@ type generator struct {
 	policies []Policy
 }
 
+// New returns a new generator.
 func New(policies ...Policy) Generator {
 	if len(policies) == 0 {
 		policies = []Policy{WithDefault}
