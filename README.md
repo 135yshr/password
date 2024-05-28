@@ -1,8 +1,8 @@
 # password
 
-[![go](https://github.com/135yshr/passowrd/actions/workflows/go.yml/badge.svg)](https://github.com/135yshr/passowrd/actions)
-[![Go Report Card](https://goreportcard.com/badge/github.com/135yshr/passowrd)](https://goreportcard.com/report/github.com/135yshr/passowrd)
-[![GoDoc](http://img.shields.io/badge/GoDoc-Reference-blue.svg)](https://godoc.org/github.com/135yshr/passowrd)
+[![go](https://github.com/135yshr/password/actions/workflows/go.yml/badge.svg)](https://github.com/135yshr/password/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/135yshr/password)](https://goreportcard.com/report/github.com/135yshr/password)
+[![GoDoc](http://img.shields.io/badge/GoDoc-Reference-blue.svg)](https://godoc.org/github.com/135yshr/password)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 _This is a simple password generator written in Go._
@@ -14,7 +14,7 @@ _This is a simple password generator written in Go._
 ## Installation
 
 ```bash
-go get -u github.com/135yshr/passowrd
+go get -u github.com/135yshr/password
 ```
 
 ## Lean more
