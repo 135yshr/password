@@ -12,7 +12,10 @@ import (
 	"github.com/135yshr/password/policy"
 )
 
-const defaultLength = 12
+const (
+	defaultGenerateCount = 1
+	defaultLength        = 12
+)
 
 var (
 	version string
@@ -23,27 +26,53 @@ var (
 
 var (
 	length int
+	all    bool
 	upper  bool
 	lower  bool
 	number bool
 	symbol bool
+	custom string
 	help   bool
 	ver    bool
 )
 
 func initFlags() {
 	flag.IntVar(&length, "length", defaultLength, "length of password")
-	flag.BoolVar(&upper, "upper", true, "use uppercase")
-	flag.BoolVar(&lower, "lower", true, "use lowercase")
-	flag.BoolVar(&number, "number", true, "use numbers")
-	flag.BoolVar(&symbol, "symbol", true, "use symbols")
+	flag.BoolVar(&all, "all", true, "use all characters")
+	flag.BoolVar(&all, "a", true, "use all characters")
+	flag.BoolVar(&upper, "upper", false, "use uppercase")
+	flag.BoolVar(&upper, "u", false, "use uppercase")
+	flag.BoolVar(&lower, "lower", false, "use lowercase")
+	flag.BoolVar(&lower, "l", false, "use lowercase")
+	flag.BoolVar(&number, "number", false, "use numbers")
+	flag.BoolVar(&number, "n", false, "use numbers")
+	flag.BoolVar(&symbol, "symbol", false, "use symbols")
+	flag.BoolVar(&symbol, "s", false, "use symbols")
+	flag.StringVar(&custom, "custom", "", "use custom characters")
 	flag.BoolVar(&help, "help", false, "show help")
+	flag.BoolVar(&help, "h", false, "show help")
 	flag.BoolVar(&ver, "version", false, "show version")
+	flag.BoolVar(&ver, "v", false, "show version")
+}
+
+func updateFlagsBasedOnConditions() {
+	if upper || lower || number || symbol {
+		all = false
+	}
+
+	if custom != "" {
+		all = false
+		upper = false
+		lower = false
+		number = false
+		symbol = false
+	}
 }
 
 func main() {
 	initFlags()
 	flag.Parse()
+	updateFlagsBasedOnConditions()
 
 	// show help
 	if help {
@@ -58,7 +87,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	count := 1
+	count := defaultGenerateCount
 
 	if flag.NArg() > 0 {
 		cn, err := strconv.Atoi(flag.Arg(0))
@@ -98,6 +127,10 @@ func createPolicies() []policy.Policy {
 	policies = createPolicy(policies, lower, policy.WithLowercase)
 	policies = createPolicy(policies, number, policy.WithNumbers)
 	policies = createPolicy(policies, symbol, policy.WithSymbols)
+
+	if custom != "" {
+		policies = append(policies, policy.WithCustomString([]rune(custom)))
+	}
 
 	return policies
 }
