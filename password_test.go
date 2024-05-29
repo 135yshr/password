@@ -130,6 +130,18 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 				pattern: "^[a-z]{5,10}$",
 			},
 		},
+		"custom characters string": {
+			args: args{
+				length: 5,
+				policies: []policy.Policy{
+					policy.WithCustomString([]rune("abcdef0123456789")),
+				},
+			},
+			want: want{
+				length:  5,
+				pattern: "^[abcdef0123456789]{5}$",
+			},
+		},
 	}
 
 	for tn, tt := range tests {

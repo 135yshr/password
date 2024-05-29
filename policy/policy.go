@@ -38,8 +38,15 @@ var (
 	WithMaxLength = func(max int) Policy {
 		return NewPolicy([]rune{}, maxLengthValidator{maxLength: max})
 	}
+
+	// WithCustomString is a policy with custom string.
+	WithCustomString = func(letters []rune) Policy {
+		return NewPolicy(letters,
+			regexpValidator{regexpString: regexp.QuoteMeta(string(letters))})
+	}
 )
 
+// Validator is a validator.
 type Validator interface {
 	IsValid(password string) bool
 }
@@ -48,6 +55,7 @@ type regexpValidator struct {
 	regexpString string
 }
 
+// IsValid returns true if the password is valid.
 func (v regexpValidator) IsValid(password string) bool {
 	return regexp.MustCompile(`^[` + v.regexpString + `]+$`).MatchString(password)
 }
@@ -56,6 +64,7 @@ type minLengthValidator struct {
 	minLength int
 }
 
+// IsValid returns true if the password is valid.
 func (v minLengthValidator) IsValid(password string) bool {
 	return len(password) >= v.minLength
 }
@@ -64,10 +73,12 @@ type maxLengthValidator struct {
 	maxLength int
 }
 
+// IsValid returns true if the password is valid.
 func (v maxLengthValidator) IsValid(password string) bool {
 	return len(password) <= v.maxLength
 }
 
+// Policy is a password policy.
 type Policy interface {
 	Validator
 	Letters() []rune
@@ -78,10 +89,12 @@ type policy struct {
 	validator Validator
 }
 
+// Letters returns the letters.
 func (p *policy) Letters() []rune {
 	return p.letters
 }
 
+// IsValid returns true if the password is valid.
 func (p *policy) IsValid(password string) bool {
 	return p.validator.IsValid(password)
 }

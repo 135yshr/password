@@ -17,7 +17,7 @@ func (p Password) String() string {
 
 // Generator is a password generator.
 type Generator interface {
-	Generate(length int) string
+	Generate(length int) Password
 }
 
 type generator struct {
@@ -44,7 +44,8 @@ func New(policies ...policy.Policy) Generator {
 	}
 }
 
-func (g generator) Generate(length int) string {
+// Generate generates a password.
+func (g generator) Generate(length int) Password {
 	password := g.generate(length)
 	for !g.IsValidate(password) {
 		password = g.generate(length)
@@ -53,16 +54,23 @@ func (g generator) Generate(length int) string {
 	return password
 }
 
-func (g generator) IsValidate(password string) bool {
-	return regexp.MustCompile("^[" + regexp.QuoteMeta(string(g.letters)) + "]+$").MatchString(password)
+// IsValidate returns true if the password is valid.
+func (g generator) IsValidate(password Password) bool {
+	return regexp.
+		MustCompile(g.regexString()).
+		MatchString(password.String())
 }
 
-func (g generator) generate(length int) string {
+func (g generator) generate(length int) Password {
 	buf := make([]rune, length)
 
 	for i := range buf {
 		buf[i] = g.letters[rand.N(g.size)] //nolint:gosec // use rand.N here because it is not safe to use rand.Intn
 	}
 
-	return string(buf)
+	return Password(buf)
+}
+
+func (g generator) regexString() string {
+	return "^[" + regexp.QuoteMeta(string(g.letters)) + "]+$"
 }
