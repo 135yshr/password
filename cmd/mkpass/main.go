@@ -18,6 +18,7 @@ var (
 	lower  bool
 	number bool
 	symbol bool
+	help   bool
 )
 
 func main() {
@@ -26,8 +27,14 @@ func main() {
 	flag.BoolVar(&lower, "lower", true, "use lowercase")
 	flag.BoolVar(&number, "number", true, "use numbers")
 	flag.BoolVar(&symbol, "symbol", true, "use symbols")
+	flag.BoolVar(&help, "help", false, "show help")
 
 	flag.Parse()
+
+	if help {
+		flag.Usage()
+		os.Exit(0)
+	}
 
 	count := 1
 
