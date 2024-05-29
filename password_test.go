@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/135yshr/password"
+	"github.com/135yshr/password/policy"
 	"github.com/stretchr/testify/require"
 )
 
@@ -13,7 +14,7 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 
 	type args struct {
 		length   int
-		policies []password.Policy
+		policies []policy.Policy
 	}
 
 	type want struct {
@@ -38,8 +39,8 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"5 characters string of lowercase": {
 			args: args{
 				length: 5,
-				policies: []password.Policy{
-					password.WithLowercase,
+				policies: []policy.Policy{
+					policy.WithLowercase,
 				},
 			},
 			want: want{
@@ -50,8 +51,8 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"5 characters string of uppercase": {
 			args: args{
 				length: 5,
-				policies: []password.Policy{
-					password.WithUppercase,
+				policies: []policy.Policy{
+					policy.WithUppercase,
 				},
 			},
 			want: want{
@@ -62,9 +63,9 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"5 characters string of lowercase and uppercase": {
 			args: args{
 				length: 5,
-				policies: []password.Policy{
-					password.WithLowercase,
-					password.WithUppercase,
+				policies: []policy.Policy{
+					policy.WithLowercase,
+					policy.WithUppercase,
 				},
 			},
 			want: want{
@@ -75,10 +76,10 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"5 characters string of lowercase and uppercase and numbers": {
 			args: args{
 				length: 5,
-				policies: []password.Policy{
-					password.WithLowercase,
-					password.WithUppercase,
-					password.WithNumbers,
+				policies: []policy.Policy{
+					policy.WithLowercase,
+					policy.WithUppercase,
+					policy.WithNumbers,
 				},
 			},
 			want: want{
@@ -89,11 +90,11 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"30 characters string of lowercase and uppercase and numbers and symbols": {
 			args: args{
 				length: 30,
-				policies: []password.Policy{
-					password.WithLowercase,
-					password.WithUppercase,
-					password.WithNumbers,
-					password.WithSymbols,
+				policies: []policy.Policy{
+					policy.WithLowercase,
+					policy.WithUppercase,
+					policy.WithNumbers,
+					policy.WithSymbols,
 				},
 			},
 			want: want{
@@ -104,10 +105,10 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"5 characters string of lowercase and min length 5 and max length 10": {
 			args: args{
 				length: 5,
-				policies: []password.Policy{
-					password.WithLowercase,
-					password.WithMinLength(5),
-					password.WithMaxLength(10),
+				policies: []policy.Policy{
+					policy.WithLowercase,
+					policy.WithMinLength(5),
+					policy.WithMaxLength(10),
 				},
 			},
 			want: want{
@@ -118,15 +119,27 @@ func TestPasswordGeneratorGenerate(t *testing.T) {
 		"6 characters string of lowercase and min length 5 and max length 10": {
 			args: args{
 				length: 6,
-				policies: []password.Policy{
-					password.WithLowercase,
-					password.WithMinLength(5),
-					password.WithMaxLength(10),
+				policies: []policy.Policy{
+					policy.WithLowercase,
+					policy.WithMinLength(5),
+					policy.WithMaxLength(10),
 				},
 			},
 			want: want{
 				length:  6,
 				pattern: "^[a-z]{5,10}$",
+			},
+		},
+		"custom characters string": {
+			args: args{
+				length: 5,
+				policies: []policy.Policy{
+					policy.WithCustomString([]rune("abcdef0123456789")),
+				},
+			},
+			want: want{
+				length:  5,
+				pattern: "^[abcdef0123456789]{5}$",
 			},
 		},
 	}
