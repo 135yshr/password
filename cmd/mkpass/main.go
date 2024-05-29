@@ -35,6 +35,7 @@ func main() {
 		cn, err := strconv.Atoi(flag.Arg(0))
 		if err != nil {
 			fmt.Println("invalid count:", flag.Arg(0))
+			flag.Usage()
 			os.Exit(1)
 		}
 
