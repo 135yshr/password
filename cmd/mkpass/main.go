@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/135yshr/password"
+	"github.com/135yshr/password/policy"
 )
 
 const defaultLength = 12
@@ -91,17 +92,17 @@ func printVersion() {
 	fmt.Println("\nMIT License (c) 2024 135yshr")
 }
 
-func createPolicies() []password.Policy {
-	policies := make([]password.Policy, 0, 4) //nolint:mnd // 4 is the number of policies
-	policies = createPolicy(policies, upper, password.WithUppercase)
-	policies = createPolicy(policies, lower, password.WithLowercase)
-	policies = createPolicy(policies, number, password.WithNumbers)
-	policies = createPolicy(policies, symbol, password.WithSymbols)
+func createPolicies() []policy.Policy {
+	policies := make([]policy.Policy, 0, 4) //nolint:mnd // 4 is the number of policies
+	policies = createPolicy(policies, upper, policy.WithUppercase)
+	policies = createPolicy(policies, lower, policy.WithLowercase)
+	policies = createPolicy(policies, number, policy.WithNumbers)
+	policies = createPolicy(policies, symbol, policy.WithSymbols)
 
 	return policies
 }
 
-func createPolicy(policies []password.Policy, create bool, policy password.Policy) []password.Policy {
+func createPolicy(policies []policy.Policy, create bool, policy policy.Policy) []policy.Policy {
 	if create {
 		return append(policies, policy)
 	}
