@@ -58,7 +58,10 @@ changelog:
       - "^test:"
 
 brews:
-  - repository:
+  - name: mkpass
+    repository:
       owner: 135yshr
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+    directory: Formula
+    license: MIT
