@@ -49,7 +49,6 @@ Usage of mkpass:
 ## Prerequisites
 
 - [Go](https://go.dev/): 1.22+
-```
 
 ## Development
 
