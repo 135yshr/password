@@ -7,20 +7,59 @@
 
 _This is a simple password generator written in Go._
 
+## Getting Started
+
+```bash
+brew install 135yshr/tap/mkpass
+```
+
+### Run
+
+```bash
+$ mkpass -h
+Usage of mkpass:
+  -a	use all characters (default true)
+  -all
+    	use all characters (default true)
+  -custom string
+    	use custom characters
+  -h	show help
+  -help
+    	show help
+  -l	use lowercase
+  -length int
+    	length of password (default 12)
+  -lower
+    	use lowercase
+  -n	use numbers
+  -number
+    	use numbers
+  -s	use symbols
+  -symbol
+    	use symbols
+  -u	use uppercase
+  -upper
+    	use uppercase
+  -v	show version
+  -version
+    	show version
+```
+
+
 ## Prerequisites
 
 - [Go](https://go.dev/): 1.22+
+```
 
-## Installation
+## Development
 
 ```bash
-go get -u github.com/135yshr/password
+$ go get -u github.com/135yshr/password
 ```
 
 ## Lean more
 
 ### How to generate
-
 
 ```go
 import (
